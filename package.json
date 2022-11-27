@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "cmd": "node deploy-commands.js"
+    "dev": "nodemon src/index.js",
+    "cmd": "node src/deploy-commands.js"
   },
   "repository": {
     "type": "git",
