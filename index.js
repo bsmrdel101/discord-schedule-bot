@@ -13,7 +13,7 @@ client.once('ready', () => {
     console.log('===================');
 });
 
-client.on('interactionCreate', async interaction => {
+client.on('interactionCreate', async (interaction) => {
 	if (!interaction.isChatInputCommand()) return;
 
 	const { commandName } = interaction;
@@ -23,7 +23,7 @@ client.on('interactionCreate', async interaction => {
 	} else if (commandName === 'server') {
 		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
 	} else if (commandName === 'user') {
-		await interaction.reply('User info.');
+		await interaction.reply(`${interaction}`);
 	}
 });
 
