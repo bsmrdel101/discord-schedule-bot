@@ -1,4 +1,9 @@
+const express = require('express');
+const app = express();
+const http = require('http');
 require('dotenv').config();
+const server = http.createServer(app);
+
 const { token } = process.env;
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
@@ -24,3 +29,14 @@ client.handleEvents();
 client.handleCommands();
 client.handleComponents();
 client.login(token);
+
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log(`Listening on localhost:${PORT}`);
+});
