@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { fetchSchedulesData } = require('../../controllers/scheduleController');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -7,9 +8,9 @@ module.exports = {
   async execute(interaction, client) {
     const embed = new EmbedBuilder()
       .setTitle('Schedule')
-      .setDescription('Here\'s everyone\'s availability!')
+      .setDescription('Here\'s the available times!')
       .setColor(0x4acfcc)
-      .addFields(displaySchedule());
+      .addFields(await displaySchedule());
 
       await interaction.reply({
         embeds: [embed]
@@ -18,14 +19,16 @@ module.exports = {
 };
 
 // Returns all the schedule data to display
-const displaySchedule = () => {
-  const userSchedules = getSchedules();
+const displaySchedule = async () => {
+  const userSchedules = await getSchedules();
   const schedule = determineAvailability(userSchedules);
   return schedule;
 };
 
 // Return list of avaiable times for each user
-const getSchedules = () => {
+const getSchedules = async () => {
+  const data = await fetchSchedulesData();
+  console.log(data);
   const fakeData = [
     {
       name: 'BEAN',
@@ -97,7 +100,7 @@ const getSchedules = () => {
         },
       ],
     },
-  ]
+  ];
   return fakeData;
 };
 
