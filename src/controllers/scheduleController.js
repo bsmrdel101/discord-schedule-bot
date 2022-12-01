@@ -3,9 +3,11 @@ const { db } = require('../scripts/firebase');
 
 const dbInstance = collection(db, 'schedules');
 
-const addSchedule = (value) => {
-  addDoc(dbInstance, {
-    username: value
+const addScheduleData = async (payload) => {
+  await addDoc(dbInstance, {
+    name: payload.name,
+    days: payload.days,
+    times: payload.times
   });
 };
 
@@ -21,15 +23,17 @@ const fetchSchedulesData = async () => {
   return data;
 };
 
-const editSchedule = (id, value) => {
-  const collectionById = doc(db, 'users', id)
+const editScheduleData = (id, payload) => {
+  const collectionById = doc(db, 'schedules', id);
   updateDoc(collectionById, {
-      username: value
+    name: payload.name,
+    days: payload.days,
+    times: payload.times
   });
 };
 
 module.exports = {
-  addSchedule,
+  addScheduleData,
   fetchSchedulesData,
-  editSchedule
+  editScheduleData
 };

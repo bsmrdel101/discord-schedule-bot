@@ -29,79 +29,7 @@ const displaySchedule = async () => {
 const getSchedules = async () => {
   const data = await fetchSchedulesData();
   console.log(data);
-  const fakeData = [
-    {
-      name: 'BEAN',
-      days: [
-        'monday',
-      ],
-      times: [
-        {
-          meridiem: 'pm',
-          time: { 
-            hour: 1,
-            min: 0,
-          },
-        },
-      ],
-    },
-    {
-      name: 'Corny',
-      days: [
-        'monday',
-        'tuesday',
-        'wednesday',
-      ],
-      times: [
-        {
-          meridiem: 'pm',
-          time: { 
-            hour: 3,
-            min: 30,
-          },
-        },
-        {
-          meridiem: 'am',
-          time: { 
-            hour: 12,
-            min: 0,
-          },
-        },
-      ],
-    },
-    {
-      name: 'BEAN 2',
-      days: [
-        'monday',
-      ],
-      times: [
-        {
-          meridiem: 'pm',
-          time: { 
-            hour: 1,
-            min: 0,
-          },
-        },
-      ],
-    },
-    {
-      name: 'BEAN 3',
-      days: [
-        'monday',
-        'tuesday',
-      ],
-      times: [
-        {
-          meridiem: 'pm',
-          time: { 
-            hour: 1,
-            min: 0,
-          },
-        },
-      ],
-    },
-  ];
-  return fakeData;
+  return data;
 };
 
 // Returns the filtered and formated schedule data
@@ -125,10 +53,32 @@ const handleAvailableDays = (days, userSchedules) => {
       if (!user.days.includes(day.day)) {
         isFree = false;
       } else {
-        users += `- ${user.name}\n`;
+        // User text that will be displayed
+        users += `- ${user.name} (${displayUserTimes(user.times)})\n`;
       }
     });
     if (isFree) freeDays.push({day: day.day, users: users});
   });
   return freeDays;
+};
+
+const displayUserTimes = (times) => {
+  let timeText = '';
+  times.forEach((time, i) => {
+    timeText += `${time.hour}:${numIsTwoDigits(time.min) ? 0 : ''}${time.min} ${time.meridiem}${addComma(times, i)}`;
+  });
+  return timeText;
+};
+
+
+
+const numIsTwoDigits = (num) => {
+  let str = num.toString();
+  return str.length === 1 ? true : false;
+};
+
+// Takes in array and current iteration
+// Returns comma and space if it's not the last item in the array
+const addComma = (arr, i) => {
+  return i+1 === arr.length ? '' : ', ';
 };
